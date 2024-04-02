@@ -9,7 +9,7 @@ $rotas_permitidas = require_once __DIR__ . '/../inc/rotas.php';
 $rota = $_GET['rota'] ?? 'home';
 
 // verificar se o usuário está logado
-if (!isset($_SESSION['usuario']) && $rota !== 'login_submit') {
+if (!isset($_SESSION['usuario']) && $rota !== 'login_submit' && $rota !=='cadastro') {
     $rota = "login";
 }
 
@@ -58,6 +58,10 @@ switch ($rota) {
     case 'pdocente':
         $script .= 'pdocente.php';
         break;
+    
+   case 'pre_relatorio':
+        $script .= 'pre_relatorio.php';
+        break; 
 
     case 'pcppd':
         $script .= 'pcppd.php';
