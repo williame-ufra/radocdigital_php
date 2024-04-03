@@ -11,6 +11,7 @@
 <body>
     <div class="container p-5">
         <form method="post" action="?rota=pre_relatorio_submit">
+            <a href="?rota=pdocente" class="btn btn-default">Voltar</a>
             <div class="col text-center">
                 <h2>Preencher relatório</h2><br>
             </div>
