@@ -11,5 +11,6 @@ return [
     'cadastro_submit',
     'pdocente',
     'pcppd',
-    'pre_relatorio'
+    'pre_relatorio',
+    'pre_relatorio_submit'
 ];
