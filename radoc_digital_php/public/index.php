@@ -62,6 +62,10 @@ switch ($rota) {
    case 'pre_relatorio':
         $script .= 'pre_relatorio.php';
         break; 
+    
+    case 'pre_relatorio_submit':
+        $script .= 'pre_relatorio_submit.php';
+        break; 
 
     case 'pcppd':
         $script .= 'pcppd.php';
