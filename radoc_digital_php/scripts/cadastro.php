@@ -1,8 +1,3 @@
-<?php
-
-require_once  __DIR__ . '/../inc/navbar.php';
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -29,19 +24,52 @@ require_once  __DIR__ . '/../inc/navbar.php';
 
                 E-mail: <input class="form-control" type="email" placeholder="Digite seu e-mail" name="email" required>
 
-                Classe: <input class="form-control" type="text" placeholder="Digite sua classe" name="classe" required>
+                Classe: <label for="" class="form-label"></label>
+                <select class="form-select">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                </select>
 
-                Vínculo: <input class="form-control" type="text" placeholder="Digite seu vínculo" name="vinculo" required>
+                Vínculo estatutário: <label for="" class="form-label"></label>
+                <select class="form-select">
+                    <option value="SIM">Sim</option>
+                    <option value="NÃO">Não</option>
+                </select>
 
                 Regime de trabalho: <input class="form-control" type="text" placeholder="Digite seu regime de trabalho" name="rtrabalho" required>
 
-                Titulação: <input class="form-control" type="text" placeholder="Digite a sua titulação" name="titulacao" required>
+                Titulação: <label for="" class="form-label"></label>
+                <select class="form-select">
+                    <option value="GD">Graduação</option>
+                    <option value="ESP">Especialização</option>
+                    <option value="MST">Mestre</option>
+                    <option value="DC">Doutor</option>
+                </select>
 
-                Campus: <input class="form-control" type="text" placeholder="Digite seu campus" name="campus" required>
 
-                Instituto: <input class="form-control" type="text" placeholder="Digite seu instituto" name="instituto" required>
+                Campus: <label for="" class="form-label"></label>
+                <select class="form-select">
+                    <option value="BEL">Belém</option>
+                    <option value="PARAG">Paragominas</option>
+                    <option value="CAP">Capanema</option>
+                    <option value="CAPIT">Capitão Poço</option>
+                    <option value="TOME">Tomé-Açu</option>
+                    <option value="PARAU">Parauapebas</option>
+                </select>
 
-                Data: <input class="form-control" type="text" placeholder="Digite a data" name="data" required>
+
+                Instituto: <label for="" class="form-label"></label>
+                <select class="form-select">
+                    <option value="ICA">ICA</option>
+                    <option value="ISARH">ISARH</option>
+                    <option value="ISPA">ISPA</option>
+                    <option value="ICIBE">ICIBE</option>
+                </select>
+
+                Data: <input class="form-control" type="date" placeholder="Digite a data" name="data" required>
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Cadastrar<br>
@@ -55,16 +83,3 @@ require_once  __DIR__ . '/../inc/navbar.php';
 
 </html>
 
-
-
-
-<!--<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h4>page1</h4>
-            <p class="mt-5"></p>
-        </div>
-
-    </div>
-
-</div>-->
