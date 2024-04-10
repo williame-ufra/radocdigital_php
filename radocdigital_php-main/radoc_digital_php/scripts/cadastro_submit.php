@@ -39,6 +39,11 @@ $result = $bd->insert("INSERT INTO docente (nome_completo, cpf, siape, email, cl
     <title>Document</title>
 </head>
 <body>
-    <p>cadastro atualizado!</p>
+    <p>
+    <h4 class="text-center">Cadastro realizado com sucesso!</h4>
+    </p>
+    <div class="text-center">
+        <a href="?rota=login"><button class="btn btn-success btn-lg mt-5">Fazer login</button></a>
+    </div>
 </body>
 </html>
