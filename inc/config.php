@@ -4,7 +4,9 @@
 define('MYSQL_OPTIONS', [
     'db_host' => 'localhost',
     'db_name' =>  'radoc_digital',
-    'db_user' =>  'adm',
-    'db_pass' =>  '7OtaxAsE',
+    // 'db_user' =>  'adm',
+    // 'db_pass' =>  '7OtaxAsE',
+    'db_user' =>  'root',
+    'db_pass' =>  '',
     'db_char' =>  'utf8',
 ]);
