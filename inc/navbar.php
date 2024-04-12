@@ -15,7 +15,7 @@ $usuario_logado = $_SESSION['usuario'];
             </div>
 
             <div class="col text-end">
-                <span>Usuário logado: <strong><?= $usuario_logado['login'] ?></strong></span>
+                <span>Usuário logado: <strong><?= $usuario_logado['login'] ?? NULL ?></strong></span>
                 <span class="mx-2">|</span>
                 <a href="?rota=logout" class="text-light">Sair</a>
             </div>

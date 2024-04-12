@@ -65,6 +65,28 @@ class Conexao {
 	// 	return mysqli_insert_id();
 	// }
 
+    function recupera($sTabela,$vsDados=array()) {
+		if(count($vsDados)) {
+            $sSqlWhere = '';
+            $sAnd = '';
+			foreach($vsDados as $sNomeCampo => $sCampoChave) {
+
+				$sSqlWhere .= "$sAnd $sNomeCampo = '$sCampoChave' ";	
+				$sAnd = "and";
+			}
+		}
+		
+		$sSql = "select * from $sTabela where $sSqlWhere ";		
+		// echo $sSql."<br>";die;
+		$this->execute($sSql);
+		$vsDados = $this->fetchArray();
+		
+		if ($vsDados)
+			return $vsDados;
+
+		return false;
+	}
+
     public function recordCount(): int {
         return (int) mysqli_num_rows($this->getConsulta());
     }

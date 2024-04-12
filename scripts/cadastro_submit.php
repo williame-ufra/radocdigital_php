@@ -38,13 +38,20 @@ $dados = array(
     'titulacao' => $titulacao,
     'campus_id' => $campus,
     'instituto_id' => $instituto,
-    // 'data' => $formattedDate,
-    'senha' => $senha,
+    'senha' => hash('sha256', $senha),
     'ultimo_acesso' => $formattedDate
 );
 
 // print_r($ultimo_acesso);
 // die;
+
+$usuario = $classeDocente->recupera(['cpf' => $usuario]);
+
+if ($usuario) {
+    $msg = 'Usuário já cadastrado!';
+    header('Location: /?rota=cadastro');
+    exit;
+}
 
 $docente = $classeDocente->insere($dados);
 

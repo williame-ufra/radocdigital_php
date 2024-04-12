@@ -20,7 +20,7 @@ unset($_SESSION['erro']);
 
                 <form action="?rota=login_submit" method="post">
                     <div class="mb-3">
-                        <label for="text_usuario">Usuário</label>
+                        <label for="text_usuario">CPF</label>
                         <input type="text" placeholder="Digite seu CPF" name="text_usuario" class="form-control" required>
                     </div>
 

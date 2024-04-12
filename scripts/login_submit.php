@@ -1,21 +1,30 @@
 <?php
+
+require_once __DIR__ . '/../classes/class.Docente.php';
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = isset($_POST['text_usuario']) ? trim(htmlspecialchars($_POST['text_usuario'])) : null;
     $senha = isset($_POST['text_senha']) ? trim(htmlspecialchars($_POST['text_senha'])) : null;
-
+    
     // Verifica se os dados estão preenchidos
     if (!$usuario || !$senha) {
         header('Location: /?rota=login');
         exit;
     }
     //abrir base de dados
-    $bd = new EasyPDO\EasyPDO(MYSQL_OPTIONS);
-
-    $resultado = $bd->query("SELECT * FROM docente WHERE cpf = :cpf ", [
-        ':cpf' => $usuario,
-
-    ]);
+    // $bd = new EasyPDO\EasyPDO(MYSQL_OPTIONS);
     
+    // $resultado = $bd->query("SELECT * FROM docente WHERE cpf = :cpf ", [
+    //     ':cpf' => $usuario,
+        
+    // ]);
+    // print_r($resultado[0]);die;
+    
+    $classeDocente = new Docente();
+
+    $resultado = $classeDocente->recupera(['cpf' => $usuario, 'senha' => hash('sha256', $senha)]);
+
     // Verifica se houve algum erro na consulta
     if (!$resultado) {
         session_start();
@@ -33,16 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Verifica se a senha está correta
-    if (!$bd->verifyPassword($senha, $resultado[0]['senha'])) {
-        session_start();
-        $_SESSION['erro'] = 'Usuário ou senha inválidos';
-        header('Location: index.php?rota=login');
-        exit;
-    }
+    // if (!$bd->verifyPassword($senha, $resultado[0]['senha'])) {
+    //     session_start();
+    //     $_SESSION['erro'] = 'Usuário ou senha inválidos';
+    //     header('Location: index.php?rota=login');
+    //     exit;
+    // }
 
     // Define a sessão do usuário
+
     session_start();
-    $_SESSION['usuario'] = $resultado[0];
+
+    // $_SESSION['usuario'] = $resultado[0];
+    $_SESSION['usuario'] = $resultado;
 
     // Redireciona para a página inicial
     header('Location: index.php?rota=home');
