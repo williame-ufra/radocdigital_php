@@ -46,9 +46,9 @@ $erro = $_SESSION[ 'erro' ] ?? false;
     <a href = '?rota=preencher_dec.php'><button class = 'btn btn-success mt-5'>Preencher declaração</button></a><br>
     </div> -->
 
-    <div class = 'col text-center'><!-- <a href = '?rota=gerar_relatorio.php' target = '_blank'><button class = 'btn btn-success mt-5'>Gerar Relatório</button></a><br> -->
+    <!-- <div class = 'col text-center'>
     <a href = '?rota=relatorio' target = '_blank'><button class = 'btn btn-success mt-5'>Gerar Relatório</button></a><br>
-    </div>
+    </div> -->
 
     <!-- <div class = 'col text-center'>
     <a href = '?rota=teste-email' target = '_blank'><button class = 'btn btn-success mt-5'>Teste Email</button></a><br>

@@ -54,12 +54,15 @@ th {
         $_SESSION[ 'msg' ] = '';
         ?>
         <div class = 'row'>
-        <h2 class = 'text-center mt-5'>Página docente</h2>
+        <h2 class = 'text-center mt-5'>Página do Docente</h2>
         <!-- <div style = 'display:flex'> -->
         <div class = 'col text-center'>
 
         <a href = '?rota=pre_relatorio'><button class = 'btn btn-success mt-5'>Preencher relatório</button></a>
 
+    </div>
+        <div class = 'col text-center'>
+        <a href = '?rota=relatorio' target = '_blank'><button class = 'btn btn-success mt-5'>Gerar Relatório</button></a><br>
         </div>
         <div class = 'col text-center'>
         <a href = '?rota=pre_relatorio_edit'><button class = 'btn btn-success mt-5'>Editar relatório</button></a>
