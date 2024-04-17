@@ -6,13 +6,17 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/../classes/class.Docente.php';
 
+$intervalo = 0;
 if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
     $usuario = isset( $_POST[ 'text_usuario' ] ) ? trim( htmlspecialchars( $_POST[ 'text_usuario' ] ) ) : null;
     $senha = isset( $_POST[ 'text_senha' ] ) ? trim( htmlspecialchars( $_POST[ 'text_senha' ] ) ) : null;
 
     if ( !$usuario || !$senha ) {
         // header( 'Location: /?rota=login' );
-        header( 'Refresh: 0; URL=/?rota=login' );
+        // header( 'Refresh: 0; URL=/?rota=login' );
+        echo "<script>setTimeout(function() {
+            window.location.href = '/?rota=login';
+        }, " . ($intervalo * 1000) . ");</script>";
         exit;
     }
 
@@ -27,7 +31,6 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
     }
 
     $resultado = $classeDocente->recupera( [ 'cpf' => $usuario, 'senha' => $senha ] );
-    $intervalo = 0;
 
     if ( !$resultado ) {
         // session_start();

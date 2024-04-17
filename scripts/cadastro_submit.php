@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
     // $ultimo_acesso = isset($_POST['ultimo_acesso']) ? $_POST['ultimo_acesso'] : '';
 }
+$intervalo = 0;
 
 $agora = new DateTime();
 $agoraFormatado = $agora->format('Y-m-d H:i:s');
@@ -51,7 +52,10 @@ $usuario = $classeDocente->recupera(['cpf' => $cpf]);
 if ($usuario) {
     $msg = 'CPF já cadastrado!';
     // header('Location: /?rota=cadastro');
-    header('Refresh: 0; URL=/?rota=cadastro');
+    // header('Refresh: 0; URL=/?rota=cadastro');
+    echo "<script>setTimeout(function() {
+        window.location.href = '/?rota=cadastro';
+    }, " . ($intervalo * 1000) . ");</script>";
     exit;
 }
 
@@ -60,7 +64,10 @@ $usuario = $classeDocente->recupera(['email' => $email]);
 if ($usuario) {
     $msg = 'Email já cadastrado!';
     // header('Location: /?rota=cadastro');
-    header('Refresh: 0; URL=/?rota=cadastro');
+    // header('Refresh: 0; URL=/?rota=cadastro');
+    echo "<script>setTimeout(function() {
+        window.location.href = '/?rota=cadastro';
+    }, " . ($intervalo * 1000) . ");</script>";
     exit;
 }
 

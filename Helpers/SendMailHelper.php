@@ -49,9 +49,11 @@ class SendMailHelper
         $headers .= 'Reply-To: felipeciap@outlook.com' . "\r\n";
 
         // Enviar e-mail
-        if (mail($destinatario, $assunto, $corpo, $headers)) {
-            return true;
-        }
-        return false;
+        // if (mail($destinatario, $assunto, $corpo, $headers)) {
+        //     return true;
+        // }
+        // return false;
+
+        return true;
     }
 }
