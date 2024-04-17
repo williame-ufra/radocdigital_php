@@ -25,4 +25,6 @@ return [
     'meus_dados',
     'meus_dados_edit',
     'meus_dados_submit',
+    'permissao_cppd',
+    'permissao_cppd_submit',
 ];

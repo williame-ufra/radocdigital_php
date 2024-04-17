@@ -114,6 +114,12 @@ switch ($rota) {
         break;
     case 'meus_dados_submit':
         $script .= 'meus_dados_submit.php';
+        break;
+    case 'permissao_cppd':
+        $script .= 'permissao_cppd.php';
+        break;
+    case 'permissao_cppd_submit':
+        $script .= 'permissao_cppd_submit.php';
         break; 
 }
 

@@ -38,6 +38,10 @@ $erro = $_SESSION[ 'erro' ] ?? false;
     <a href = '?rota=reabrir_radoc.php'><button class = 'btn btn-success mt-5'>Reabertura do radoc</button></a><br>
     </div>
 
+    <div class = 'col text-center'>
+    <a href = '?rota=permissao_cppd' target = '_blank'><button class = 'btn btn-success mt-5'>Usuários CPPD</button></a><br>
+    </div>
+
     <!-- <div class = 'col text-center'>
     <a href = '?rota=imp_dec.php><button ' class = 'btn btn-success mt-5'>Imprimir declaração</button></a><br>
     </div>
