@@ -1,9 +1,24 @@
+<?php
+
+require_once __DIR__ . '/../classes/class.Campus.php';
+require_once __DIR__ . '/../classes/class.Instituto.php';
+
+$classeCampus = new Campus();
+$classeInstituto = new Instituto();
+
+$campi = $classeCampus->recuperaTodos();
+$institutos = $classeInstituto->recuperaTodos();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <style>
     label{
         margin:2px;
     }
+
     </style>
 <head>
     <meta charset="UTF-8">
@@ -14,10 +29,14 @@
 </head>
 
 <body>
+    <!-- <div>
+        <
+    </div> -->
     <div class="container p-5">
         <form method="post" action="?rota=cadastro_submit">
+        <a href="?rota=pcppd" class="btn btn-success">Voltar</a>
             <div class="col text-center">
-                <h2>Cadastro do docente</h2><br>
+                <h2>Cadastrar docente</h2><br>
             </div>
             <div class="mb-3">
                 <label>Nome:</label> 
@@ -51,7 +70,7 @@
                 <label>Regime de trabalho:</label> 
                 <select class="form-select" name="regime_de_trabalho" required>
                     <option value="">Selecione</option>
-                    <option value="DE">DE</option>
+                    <!-- <option value="DE">DE</option> -->
                     <option value="20">20h</option>
                     <option value="40">40h</option>
                 </select>
@@ -67,26 +86,32 @@
                 </select>
 
                 <label>Campus:</label> 
+
                 <select class="form-select" name="campus" required>
                     <option value="">Selecione</option>
-                    <option value="1">Belém</option>
-                    <option value="2">Paragominas</option>
-                    <option value="3">Capanema</option>
-                    <option value="4">Capitão Poço</option>
-                    <option value="5">Tomé-Açu</option>
-                    <option value="6">Parauapebas</option>
+                    <?php
+                    foreach ($campi as $key => $campus) {
+                    ?>
+                        <option value="<?= $campus['id'] ?>"><?= $campus['cidade'] ?></option>
+                    <?php
+                    }
+                    ?>
                 </select>
 
                 <label>Instituto:</label> 
+
                 <select class="form-select" name="instituto" required>
                     <option value="">Selecione</option>
-                    <option value="1">ICA</option>
-                    <option value="2">ISARH</option>
-                    <option value="3">ISPA</option>
-                    <option value="4">ICIBE</option>
+                    <?php
+                    foreach ($institutos as $key => $instituto) {
+                    ?>
+                        <option value="<?= $instituto['id'] ?>"><?= $instituto['sigla'] ?></option>
+                    <?php
+                    }
+                    ?>
                 </select>
 
-                <label>Data:</label>  <input class="form-control" type="date" placeholder="Digite a data" name="data" required>
+                <label>Data de nascimento:</label>  <input class="form-control" type="date" placeholder="Digite a data" name="data_nascimento" required>
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Cadastrar</button>

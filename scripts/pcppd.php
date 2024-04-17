@@ -1,27 +1,59 @@
 <?php
 require_once __DIR__ . '/../inc/navbar.php';
+
+$sessionMsg = $_SESSION[ 'msg' ] ?? '';
+$erro = $_SESSION[ 'erro' ] ?? false;
 ?>
+<script src = 'https://code.jquery.com/jquery-1.9.1.min.js'></script>
+<link href = 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css' rel = 'stylesheet'>
+<script src = 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js'></script>
 
-<div class="container">
+<?php if ( $erro && isset( $sessionMsg ) && $sessionMsg != '' ) {
+    ?>
+    <script type = 'text/javascript'>
+    toastr.error( '<?= $sessionMsg ?>' )
+    </script>
+    <?php
 
-    <div class="row">
-        <h2 class="text-center mt-5">Página CPPD</h2>
-        <div class="col text-center">
-            <button href="?rota=cadastro" type="submit" class="btn btn-success mt-5">Cadastrar professor<br>
-        </div>
+} elseif ( isset( $sessionMsg ) && $sessionMsg != '' ) {
+    ?>
+    <script type = 'text/javascript'>
+    toastr.success( '<?= $sessionMsg ?>' )
+    </script>
+    <?php }
 
-        <div class="col text-center">
-            <button href="reabrir_radoc.php" type="submit" class="btn btn-success mt-5">Reabertura do radoc<br>
-        </div>
+    $_SESSION[ 'msg' ] = '';
 
-        <div class="col text-center">
-            <button href="imp_dec.php" type="submit" class="btn btn-success mt-5">Imprimir declaração<br>
-        </div>
+    ?>
 
-        <div class="col text-center">
-            <button href="preencher_dec.php" type="submit" class="btn btn-success mt-5">Preencher declaração<br>
-        </div>
+    <div class = 'container'>
+
+    <div class = 'row'>
+    <h2 class = 'text-center mt-5'>Página CPPD</h2>
+    <div class = 'col text-center'>
+    <a href = '?rota=cadastro'><button class = 'btn btn-success mt-5'>Cadastrar professor</button></a><br>
+    </div>
+
+    <div class = 'col text-center'>
+    <a href = '?rota=reabrir_radoc.php'><button class = 'btn btn-success mt-5'>Reabertura do radoc</button></a><br>
+    </div>
+
+    <!-- <div class = 'col text-center'>
+    <a href = '?rota=imp_dec.php><button ' class = 'btn btn-success mt-5'>Imprimir declaração</button></a><br>
+    </div>
+
+    <div class = 'col text-center'>
+    <a href = '?rota=preencher_dec.php'><button class = 'btn btn-success mt-5'>Preencher declaração</button></a><br>
+    </div> -->
+
+    <div class = 'col text-center'><!-- <a href = '?rota=gerar_relatorio.php' target = '_blank'><button class = 'btn btn-success mt-5'>Gerar Relatório</button></a><br> -->
+    <a href = '?rota=relatorio' target = '_blank'><button class = 'btn btn-success mt-5'>Gerar Relatório</button></a><br>
+    </div>
+
+    <!-- <div class = 'col text-center'>
+    <a href = '?rota=teste-email' target = '_blank'><button class = 'btn btn-success mt-5'>Teste Email</button></a><br>
+    </div> -->
 
     </div>
 
-</div>
+    </div>

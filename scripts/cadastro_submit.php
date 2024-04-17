@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../classes/class.Docente.php';
+require_once __DIR__ . '/../Helpers/SendMailHelper.php';
 
 $classeDocente = new Docente();
-
-
+$helper = new SendMailHelper();
 
 // Verifica se a requisição foi feita usando o método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,13 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulacao = isset($_POST['titulacao']) ? $_POST['titulacao'] : '';
     $campus = isset($_POST['campus']) ? $_POST['campus'] : '';
     $instituto = isset($_POST['instituto']) ? $_POST['instituto'] : '';
-    $data = isset($_POST['data']) ? $_POST['data'] : '';
+    $data = isset($_POST['data_nascimento']) ? $_POST['data_nascimento'] : '';
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
-    $ultimo_acesso = isset($_POST['ultimo_acesso']) ? $_POST['ultimo_acesso'] : '';
+    // $ultimo_acesso = isset($_POST['ultimo_acesso']) ? $_POST['ultimo_acesso'] : '';
 }
 
-$dateTime = new DateTime($data);
+$agora = new DateTime();
+$agoraFormatado = $agora->format('Y-m-d H:i:s');
 
+$dateTime = new DateTime($data);
 $formattedDate = $dateTime->format('Y-m-d H:i:s');
 
 $dados = array(
@@ -38,18 +40,27 @@ $dados = array(
     'titulacao' => $titulacao,
     'campus_id' => $campus,
     'instituto_id' => $instituto,
-    'senha' => hash('sha256', $senha),
-    'ultimo_acesso' => $formattedDate
+    // 'senha' => hash('sha256', $senha),
+    'senha' => $senha,
+    'data_nascimento' => $formattedDate,
+    'ultimo_acesso' => $agoraFormatado
 );
 
-// print_r($ultimo_acesso);
-// die;
-
-$usuario = $classeDocente->recupera(['cpf' => $usuario]);
+$usuario = $classeDocente->recupera(['cpf' => $cpf]);
 
 if ($usuario) {
-    $msg = 'Usuário já cadastrado!';
-    header('Location: /?rota=cadastro');
+    $msg = 'CPF já cadastrado!';
+    // header('Location: /?rota=cadastro');
+    header('Refresh: 0; URL=/?rota=cadastro');
+    exit;
+}
+
+$usuario = $classeDocente->recupera(['email' => $email]);
+
+if ($usuario) {
+    $msg = 'Email já cadastrado!';
+    // header('Location: /?rota=cadastro');
+    header('Refresh: 0; URL=/?rota=cadastro');
     exit;
 }
 
@@ -58,23 +69,13 @@ $docente = $classeDocente->insere($dados);
 $msg = 'Erro ao cadastrar docente!';
 if ($docente) {
     $msg = 'Cadastro realizado com sucesso!';
+    $docente = $classeDocente->recupera(['id' => $docente]);
+    if($helper->sendEmailConfirmacaoCadastro($docente)){
+        $msg = 'Cadastro realizado com sucesso!!';
+    }
+   
 }
 
-// $bd = new EasyPDO\EasyPDO(MYSQL_OPTIONS);
-
-// $result = $bd->insert("INSERT INTO docente (nome_completo, cpf, siape, email, classe, vinculo_estatutario, regime, titulacao, campus_id, instituto_id, ultimo_acesso) VALUES (:nome_completo, :cpf, :siape, :email, :classe, :vinculo_estatutario, :regime, :titulacao, :campus_id, :instituto_id, :ultimo_acesso)", [
-//     ':nome_completo' => $nome,
-//     ':cpf' => $cpf,
-//     ':siape' => $siape,
-//     ':email' => $email,
-//     ':classe' => $classe,
-//     ':vinculo_estatutario' => $vinculo, // Assuming vinculo corresponds to estatutario
-//     ':regime' => $regime_de_trabalho,
-//     ':titulacao' => $titulacao,
-//     ':campus_id' => $campus,
-//     ':instituto_id' => $instituto,
-//     ':ultimo_acesso' => $data // Assuming data corresponds to ultimo_acesso
-// ]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,5 +94,4 @@ if ($docente) {
         <a href="?rota=login"><button class="btn btn-success btn-lg mt-5">Fazer login</button></a>
     </div>
 </body>
-
 </html>

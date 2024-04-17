@@ -25,7 +25,7 @@ class Docente
 
     function recupera($vsDados = array())
     {
-        $oConexao = $this->getConexao();
+        $oConexao = new Conexao();
         $vsDados = $this->oConexao->recupera("docente", $vsDados);
         if ($vsDados)
             return $vsDados;
@@ -35,35 +35,35 @@ class Docente
 
     function recuperaTodos($vsDados = array(), $sCampoOrdem = "")
     {
-        $oConexao = $this->getConexao();
+        $oConexao = new Conexao();
         $vvDados = $oConexao->recuperaTodos("docente", $vsDados, $sCampoOrdem);
         return $vvDados;
     }
 
     function presente($vsDados)
     {
-        $oConexao = $this->getConexao();
+        $oConexao = new Conexao();
         $bResultado = $oConexao->presente("docente", $vsDados);
         return $bResultado;
     }
 
     function insere($vsDados)
     {
-        $oConexao = $this->getConexao();
+        $oConexao = new Conexao();
         $nId = $oConexao->insere("docente", $vsDados);
         return $nId;
     }
 
     function altera($vsDados, $vsTransacao = array())
     {
-        $oConexao = $this->getConexao();
+        $oConexao = new Conexao();
         $bResultado = $oConexao->altera("docente", $vsDados);
         return $bResultado;
     }
 
     function exclui($vsDados, $vsTransacao = array())
     {
-        $oConexao = $this->getConexao();
+        $oConexao = new Conexao();
         $bResultado = $oConexao->exclui("docente", $vsDados);
         return $bResultado;
     }

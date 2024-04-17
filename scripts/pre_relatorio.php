@@ -1,5 +1,20 @@
+<?php
+
+require_once __DIR__ . '/../classes/class.Curso.php';
+
+$classes = new Curso();
+
+$cursos = $classes->recuperaTodos();
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
+<style>
+    label {
+        margin: 2px;
+    }
+</style>
 
 <head>
     <meta charset="UTF-8">
@@ -11,62 +26,125 @@
 <body>
     <div class="container p-5">
         <form method="post" action="?rota=pre_relatorio_submit">
-            <a href="?rota=pdocente" class="btn btn-default">Voltar</a>
+            <a href="?rota=pdocente" class="btn btn-success">Voltar</a>
             <div class="col text-center">
                 <h2>Preencher relatório</h2><br>
             </div>
             <div class="mb-3">
                 <h4>Avaliação do discente</h4>
 
-                Código do docente: <input class="form-control" type="text" placeholder="Digite seu código" name="coddocente" required>
+                <label>Código do docente:</label>
+                <input class="form-control" type="text" placeholder="Digite seu código" name="codigo" required>
 
-                Nome: <input class="form-control" type="text" placeholder="Digite seu nome" name="nome" required>
+                <label>Nome: </label>
+                <input class="form-control" type="text" placeholder="Digite seu nome" name="nome" required>
 
-                Semestre: <input class="form-control" type="text" placeholder="Digite o semestre" name="semestre_avaliacao" required>
+                <label>Semestre: </label>
+                <select class='form-control' name='semestre' required>
+                    <option value=''>Selecione</option>
+                    <option value='1'>1°</option>
+                    <option value='2'>2°</option>
+                </select>
 
-                Período letivo: <input class="form-control" type="text" placeholder="Digite o período letivo" name="pletivo_avaliacao" required>
+                <label>Período letivo: </label>
+                <input class="form-control" type="text" placeholder="Digite o período letivo" name="periodo_letivo" required>
+                <br />
 
                 <h4>Aula</h4>
 
-                Código da aula: <input class="form-control" type="text" placeholder="Digite o código da aula" name="codaula" required>
+                <label>Código da aula: </label>
+                <input class="form-control" type="text" placeholder="Digite o código da aula" name="codaula" required>
 
-                Nome da disciplina: <input class="form-control" type="text" placeholder="Digite o nome da disciplina" name="ndisciplina" required>
+                <label>Nome da disciplina:</label>
+                <input class="form-control" type="text" placeholder="Digite o nome da disciplina" name="ndisciplina" required>
 
-                Turma teórica: <input class="form-control" type="text" placeholder="Digite a turma teórica" name="turmteorica" required>
+                <label>Turma teórica:</label>
+                <input class="form-control" type="number" placeholder="Digite a turma teórica" name="turmteorica" required>
 
-                Turma prática: <input class="form-control" type="text" placeholder="Digite a turma prática" name="turmpratica" required>
+                <label>Turma prática: </label>
+                <input class="form-control" type="number" placeholder="Digite a turma prática" name="turmpratica" required>
 
-                Carga horária teórica: <input class="form-control" type="text" placeholder="Digite a carga horária teórica" name="chteorica" required>
+                <label>Carga horária teórica: </label>
+                <input class="form-control" type="number" placeholder="Carga horária teórica" name="chteorica" required>
 
-                Carga horária prática: <input class="form-control" type="text" placeholder="Digite a carga horária prática" name="chpratica" required>
+                <label>Carga horária prática:</label>
+                <input class="form-control" type="number" placeholder="Carga horária prática" name="chpratica" required>
 
-                Carga horária total: <input class="form-control" type="text" placeholder="Digite a carga horária total" name="chtotal" required>
+                <label>Carga horária total: </label>
+                <input class="form-control" type="number" placeholder="Carga horária total" name="chtotal" required>
 
-                Docentes: <input class="form-control" type="text" placeholder="Digite o nome do docente" name="ndocente" required>
+                <label>Qtd. Docentes: </label>
+                <input class="form-control" type="text" placeholder="Quantidade de docentes" name="ndocente" required>
 
-                Docentes ch: <input class="form-control" type="text" placeholder="Digite o ch do docente" name="chdocente" required>
+                <label>Docentes ch: </label>
+                <input class="form-control" type="text" placeholder="Carga horária docentes" name="chdocente" required>
 
-                Curso:
-                <select class="form-control" name="curso" required>
-                    <option value="1" selected>BSI</option>
-                    <option value="2">LC</option>
+                <label>Periodo Letivo: </label>
+                <input class="form-control" type="text" placeholder="Periodo letivo" name="periodo_letivo" required>
+
+                <label>Semestre:</label>
+                <select class="form-control" name="semestre" required>
+                <option value="" >Selecione</option>
+                    <option value="1" >1°</option>
+                    <option value="2">2°</option>
                 </select>
 
+                <label>Curso:</label>
+                <select class="form-control" name="curso" required>
+                    <option value="" selected>Selecione</option>
+                    <?php
+
+                    foreach ($cursos as $curso) {
+                        // $selected = ($curso['id'] == ) ? 'selected' : '';
+                        echo '<option value="' . $curso['id'] . '" ' . '' . '>' . $curso['nome'] . '</option>';
+                    }
+                    ?>
+
+                </select>
+
+                <br />
                 <h4>Cálculo semanal</h4>
 
-                Graduação: <input class="form-control" type="text" placeholder="Digite a graduação" name="graduacao_semanal" required>
+                <label>Graduação:</label>
+                
+                <select class='form-control' name='graduacao' required>
+                    <option value=''>Selecione</option>
+                    <option value='1'>Bacharelado</option>
+                    <option value='2'>Licenciatura</option>
+                </select>
 
-                Posgraduação: <input class="form-control" type="text" placeholder="Digite a posgraduação" name="pgraduacao_semanal" required>
+                <label>Posgraduação:</label>
+                
+                <select class='form-control' name='posgraduacao' required>
+                    <option value=''>Selecione</option>
+                    <option value='1'>Bacharelado</option>
+                    <option value='2'>Licenciatura</option>
+                </select>
 
-                Total: <input class="form-control" type="text" placeholder="Digite o total" name="total_semanal" required>
+                <label>Total:</label>
+                <input class="form-control" type="number" placeholder="Digite o total" name="total" required>
 
+                <br />
                 <h4>Pedagógica complementar</h4>
 
-                Graduação: <input class="form-control" type="text" placeholder="Digite a graduação" name="graduacao_pedagogica" required>
+                <label>Graduação:</label>
 
-                Posgraduação: <input class="form-control" type="text" placeholder="Digite a posgraduação" name="pgraduacao_pedagogica" required>
+                <select class='form-control' name='graduacao_pedagogica' required>
+                    <option value=''>Selecione</option>
+                    <option value='1'>Bacharelado</option>
+                    <option value='2'>Licenciatura</option>
+                </select>
 
-                Total: <input class="form-control" type="text" placeholder="Digite o total" name="total_pedagogica" required>
+                <label>Posgraduação:</label>
+
+                <select class='form-control' name='posgraduacao_pedagogica' required>
+                    <option value=''>Selecione</option>
+                    <option value='1'>Bacharelado</option>
+                    <option value='2'>Licenciatura</option>
+                </select>
+
+                <label>Total:</label>
+                <input class="form-control" type="number" placeholder="Digite o total" name="total_pedagogica" required>
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Cadastrar</button>

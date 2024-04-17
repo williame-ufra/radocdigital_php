@@ -1,87 +1,147 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $codigo = isset($_POST['codigo']) ? $_POST['codigo'] : '';
-    $nome = isset($_POST['name']) ? $_POST['name'] : '';
-    $semestre = isset($_POST['semestre']) ? $_POST['semestre'] : '';
-    $periodo_letivo = isset($_POST['pletivo']) ? $_POST['pletivo'] : '';
-    $turmas_teorica = isset($_POST['turteoricas']) ? $_POST['turteoricas'] : '';
-    $turmas_pratica = isset($_POST['turpraticas']) ? $_POST['turpraticas'] : '';
-    $carga_horaria_teorica = isset($_POST['chteorica']) ? $_POST['chteorica'] : '';
-    $carga_horaria_pratica = isset($_POST['chpratica']) ? $_POST['chpratica'] : '';
-    $carga_horaria_total = isset($_POST['chtotal']) ? $_POST['chtotal'] : '';
-    $docentes = isset($_POST['docentes']) ? $_POST['docentes'] : '';
-    $docentes_ch = isset($_POST['docentesch']) ? $_POST['docentesch'] : '';
-    $curso = isset($_POST['curso']) ? $_POST['curso'] : '';
-    $graduacao = isset($_POST['graduacao']) ? $_POST['graduacao'] : '';
-    $posgraduacao = isset($_POST['posgraduacao']) ? $_POST['posgraduacao'] : '';
-    $total = isset($_POST['total']) ? $_POST['total'] : '';
 
-    echo '<pre>';
-    var_dump($curso);
-    echo '<pre>';
-    die();
+ini_set( 'display_errors', 1 );
+ini_set( 'display_startup_errors', 1 );
+error_reporting( E_ALL );
 
-    $bd = new EasyPDO\EasyPDO(MYSQL_OPTIONS);
+require_once __DIR__ . '/../classes/class.AvaliacaoDiscente.php';
+require_once __DIR__ . '/../classes/class.Aula.php';
+require_once __DIR__ . '/../classes/class.PedagogicaComplementar.php';
+require_once __DIR__ . '/../classes/class.CalculoSemanal.php';
 
-    $result1 = $bd->insert("INSERT INTO avaliacao_discente (codigo, nome, semestre, periodo_letivo, radoc_id) 
-    SELECT :codigo, :nome, :semestre, :periodo_letivo, id
-    FROM radoc_digital.radoc", [
-        ':codigo' => $codigo,
-        ':nome' => $nome,
-        ':semestre' => $semestre,
-        ':periodo_letivo' => $periodo_letivo,
-    ]);
+$classeAvaliacaoDiscente = new AvaliacaoDiscente();
+$classeAula = new Aula();
+$classePedagogicaComplementar = new PedagogicaComplementar();
+$classeCalculoSemanal = new CalculoSemanal();
 
+$usuario = $_SESSION[ 'usuario' ];
+// print_r( $usuario );die;
+$avaliacao = $classeAvaliacaoDiscente->recupera( [ 'docente_id' => $usuario[ 'id' ] ] );
+$aula = $classeAula->recupera( [ 'docente_id' => $usuario[ 'id' ] ] );
+$pedagogicaComplementar = $classePedagogicaComplementar->recupera( [ 'docente_id' => $usuario[ 'id' ] ] );
+$calculoSemanal = $classeCalculoSemanal->recupera( [ 'docente_id' => $usuario[ 'id' ] ] );
 
-
-
-    $result2 = $bd->insert("INSERT INTO aula (codigo, nome, turmas_teorica, turmas_pratica, carga_horaria_teorica, carga_horaria_pratica, carga_horaria_total, docentes, docentes_ch, semestre, periodo_letivo, curso_id) VALUES (:codigo, :nome, :turmas_teorica, :turmas_pratica, :carga_horaria_teorica, :carga_horaria_pratica, :carga_horaria_total, :docentes, :docentes_ch, :semestre, :periodo_letivo, :curso_id)", [
-        ':codigo' => $codigo,
-        ':nome' => $nome,
-        ':turmas_teorica' => $turmas_teorica,
-        ':turmas_pratica' => $turmas_pratica,
-        ':carga_horaria_teorica' => $carga_horaria_teorica,
-        ':carga_horaria_pratica' => $carga_horaria_pratica,
-        ':carga_horaria_total' => $carga_horaria_total,
-        ':docentes' => $docentes,
-        ':docentes_ch' => $docentes_ch,
-        ':semestre' => $semestre,
-        ':periodo_letivo' => $periodo_letivo,
-        ':curso_id' => $curso,
-    ]);
-
-
-
-    $result3 = $bd->insert("INSERT INTO calculo_semanal (codigo, nome, graduacao, posgraduacao, semestre, total) VALUES (:codigo, :nome, :graduacao, :posgraduacao, :semestre, :total)", [
-        ':codigo' => $codigo,
-        ':nome' => $nome,
-        ':graduacao' => $graduacao,
-        ':posgraduacao' => $posgraduacao,
-        ':semestre' => $semestre,
-        ':total' => $total,
-    ]);
-
-    $result4 = $bd->insert("INSERT INTO pedagogica_complementar (codigo, nome, graduacao, posgraduacao, semestre, total) VALUES (:codigo, :nome, :graduacao, :posgraduacao, :semestre, :total)", [
-        ':codigo' => $codigo,
-        ':nome' => $nome,
-        ':graduacao' => $graduacao,
-        ':posgraduacao' => $posgraduacao,
-        ':semestre' => $semestre,
-        ':total' => $total,
-    ]);
+if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
+    $codigo = $_POST[ 'codigo' ] ?? '';
+    $codaula = $_POST[ 'codaula' ] ?? '';
+    $nome = $_POST[ 'nome' ] ?? '';
+    $periodo_letivo = $_POST[ 'periodo_letivo' ] ?? '';
+    $ndisciplina = $_POST[ 'ndisciplina' ] ?? '';
+    $turmas_teorica = $_POST[ 'turmteorica' ] ?? '';
+    $turmas_pratica = $_POST[ 'turmpratica' ] ?? '';
+    $carga_horaria_teorica = $_POST[ 'chteorica' ] ?? '';
+    $carga_horaria_pratica = $_POST[ 'chpratica' ] ?? '';
+    $carga_horaria_total = $_POST[ 'chtotal' ] ?? '';
+    $docentes = $_POST[ 'ndocente' ] ?? '';
+    $docentes_ch = $_POST[ 'chdocente' ] ?? '';
+    $curso = $_POST[ 'curso' ] ?? '';
+    $semestre = $_POST[ 'semestre' ] ?? '';
+    $graduacao = $_POST[ 'graduacao' ] ?? '';
+    $posgraduacao = $_POST[ 'posgraduacao' ] ?? '';
+    $total = $_POST[ 'total' ] ?? '';
+    $graduacao = $_POST[ 'graduacao' ] ?? '';
+    $posgraduacao = $_POST[ 'posgraduacao' ] ?? '';
+    $total = $_POST[ 'total' ] ?? '';
+    $graduacao_pedagogica = $_POST[ 'graduacao_pedagogica' ] ?? '';
+    $posgraduacao_pedagogica = $_POST[ 'posgraduacao_pedagogica' ] ?? '';
+    $total_pedagogica = $_POST[ 'total_pedagogica' ] ?? '';
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
+$radocId = '1';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+$dadosAvaliacaoDiscente = array(
+    'docente_id' => $usuario[ 'id' ],
+    'codigo' => $codigo,
+    'nome' => $nome,
+    'semestre' => $semestre,
+    'periodo_letivo' => $periodo_letivo,
+    'radoc_id' => $radocId
+);
 
-<body>
-    <p>Dados cadastrados com sucesso</p>
-</body>
+$dadosAula = array(
+    'docente_id' => $usuario[ 'id' ],
+    'codigo' => $codigo,
+    'nome' => $ndisciplina,
+    'turmas_teorica' => $turmas_teorica,
+    'turmas_pratica' => $turmas_pratica,
+    'carga_horaria_teorica' => $carga_horaria_teorica,
+    'carga_horaria_pratica' => $carga_horaria_pratica,
+    'carga_horaria_total' => $carga_horaria_total,
+    'docentes' => $docentes,
+    'docentes_ch' => $docentes_ch,
+    'semestre' => $semestre,
+    'periodo_letivo' => $periodo_letivo,
+    'curso_id' => $curso,
+    'radoc_id' => $radocId
+);
 
-</html>
+$dadosCalculoSemanal = array(
+    'docente_id' => $usuario[ 'id' ],
+    'graduacao' => $graduacao,
+    'posgraduacao' => $posgraduacao,
+    'semestre' => $semestre,
+    'total' => $total,
+    'radoc_id' => $radocId
+);
+
+$dadosPedagogicaComplementar = array(
+    'docente_id' => $usuario[ 'id' ],
+    'graduacao' => $graduacao,
+    'posgraduacao' => $posgraduacao,
+    'semestre' => $semestre,
+    'total' => $total,
+    'radoc_id' => $radocId
+);
+
+// print_r( $aula ); print_r( '$dadosAula' );die;
+if ( !isset( $aula ) || $aula == '' ) {
+    $aula = $classeAula->insere( $dadosAula );
+}
+
+if ( !isset( $avaliacao  )|| $avaliacao == '' ) {
+    $avaliacao = $classeAvaliacaoDiscente->insere( $dadosAvaliacaoDiscente );
+}
+
+if ( !isset( $pedagogicaComplementar  )|| $pedagogicaComplementar == '' ) {
+    $pedagogicaComplementar = $classePedagogicaComplementar->insere( $dadosPedagogicaComplementar );
+}
+
+if ( !isset( $calculoSemanal  )|| $calculoSemanal == '' ) {
+    $calculoSemanal = $classeCalculoSemanal->insere( $dadosCalculoSemanal );
+}
+
+$msg = 'Erro no cadastro!';
+$erro = true;
+
+if (!$avaliacao){
+    $msg = 'Erro ao cadastrar avaliação discente!';
+    $erro = true;
+}elseif (!$aula){
+    $msg = 'Erro ao cadastrar aula!';
+    $erro = true;
+}elseif (!$calculoSemanal){
+    $msg = 'Erro ao cadastrar cálculo semanal!';
+    $erro = true;
+}elseif (!$pedagogicaComplementar){
+    $msg = 'Erro ao cadastrar pedagógica complementar!';
+    $erro = true;
+}
+
+if ( $avaliacao && $aula && $calculoSemanal && $pedagogicaComplementar ) {
+    $msg = 'Cadastro realizado com sucesso!';
+    $erro = false;
+    // header( 'Location: /?rota=pdocente' );
+    $intervalo = 0;
+    echo "<script>setTimeout(function() {
+    window.location.href = '/?rota=pdocente';
+}, " . ( $intervalo * 1000 ) . ');</script>';
+}
+
+
+$_SESSION[ 'msg' ] = $msg;
+$_SESSION[ 'erro' ] = $erro;
+$intervalo = 0;
+    echo "<script>setTimeout(function() {
+    window.location.href = '/?rota=pdocente';
+}, " . ( $intervalo * 1000 ) . ');</script>';
+
+exit;

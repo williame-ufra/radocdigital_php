@@ -35,7 +35,7 @@ unset($_SESSION['erro']);
                     <br>
                     <a href="?rota=cadastro" class="nav-link text-success d-flex justify-content-center">Ainda não é cadastrado?</a>
                     <br>
-                    <a href="recuperar_senha" class="nav-link text-success d-flex justify-content-center">Esqueceu sua senha?</a>
+                    <!-- <a href="recuperar_senha" class="nav-link text-success d-flex justify-content-center">Esqueceu sua senha?</a> -->
                 </form>
 
                 <?php if (!empty($erro)) : ?>

@@ -13,7 +13,6 @@ class Conexao {
         // print_r('LOCAL');die;
         switch ($sServidor) {
             case 'LOCAL':
-                // print_r(BANCO_LOCAL_URL, BANCO_LOCAL_ROOT, BANCO_LOCAL_PASS, BANCO_LOCAL_NOME);die;
                 $this->conectaBD(BANCO_LOCAL_URL, BANCO_LOCAL_ROOT, BANCO_LOCAL_PASS, BANCO_LOCAL_NOME);
                 break;
             case 'ONLINE':
@@ -33,37 +32,38 @@ class Conexao {
     public function execute(string $sSql) {
         $this->pConsulta = mysqli_query($this->getConexao(), $sSql);
         if (!$this->getConsulta()) {
-            $this->sErro = "Ocorreu o seguinte erro na consulta: " . mysqli_error();
+            $this->sErro = "Ocorreu o seguinte erro na consulta: " . mysqli_error($this->getConexao());
         }
     }
 
-    function insere($sTabela,$vsDados) {
-
+	function insere($sTabela, $vsDados) {
 		$this->execute("describe $sTabela");
-
-		while($vsReg = $this->fetchArray())
-			if($vsReg["Extra"] != "auto_increment")
+		$vsDadosFinal = [];
+		while ($vsReg = $this->fetchArray()) {
+			if ($vsReg["Extra"] !== "auto_increment") {
 				$vsDadosFinal[$vsReg["Field"]] = $this->escapeString($vsDados[$vsReg["Field"]]);
-
-		$vsCampoDefault = array_keys($vsDadosFinal);
-		$vsSql["campos"] = join(",",$vsCampoDefault);
-		$vsSql["dados"] = join("','",$vsDadosFinal);
-
-		$sSql = "insert into $sTabela (".$vsSql["campos"].") values ('".$vsSql["dados"]."')";		
-		// echo $sSql."<br />";
-		// die();
-		$this->execute($sSql);		
-		// $nId = $this->getLastId();
+			}
+		}
 		
-		// if($nId)
-		// 	return $nId;
-
+		$vsCampoDefault = array_keys($vsDadosFinal);
+		$vsSql["campos"] = implode(",", $vsCampoDefault);
+		$vsSql["dados"] = implode("','", $vsDadosFinal);
+		
+		$sSql = "insert into $sTabela (" . $vsSql["campos"] . ") values ('" . $vsSql["dados"] . "')";
+		// print_r($sSql);die;
+		$this->execute($sSql);
+		$nId = $this->getLastId();
+	
+		if ($nId) {
+			return $nId;
+		}
+	
 		return $this->getConsulta();
 	}
 
-    // function getLastId(){
-	// 	return mysqli_insert_id();
-	// }
+    function getLastId(){
+		return mysqli_insert_id($this->getConexao());
+	}
 
     function recupera($sTabela,$vsDados=array()) {
 		if(count($vsDados)) {
@@ -133,4 +133,97 @@ class Conexao {
         }
         return $sEscapedString;
     }
+
+    function recuperaTodos($sTabela,$vsDados=array(),$sCampoOrdem="") {
+		$sSqlWhere = "  ";
+		if(count($vsDados)) {
+            $sAnd = '';
+			foreach($vsDados as $sNomeCampo => $sCampoChave) {
+				$sSqlWhere .= "$sAnd $sNomeCampo = '$sCampoChave' ";
+				$sAnd = "and";
+			}
+		}
+
+		$sSql = "select * from $sTabela $sSqlWhere";
+		$sSql .= ($sCampoOrdem) ? " order by $sCampoOrdem" : "";
+		// print_r($sSql);die;
+		$this->execute($sSql);
+
+		while($vsDados = $this->fetchArray())
+			$vvDados[] = $vsDados;
+
+		if(count($vvDados))
+			return $vvDados;
+
+		return array();
+	}
+
+    function presente($sTabela,$vsDados) {
+		if(count($vsDados)) {
+            $sAnd = '';
+            $sSqlWhere = '';
+			foreach($vsDados as $sNomeCampo => $sCampoChave) {
+				$sSqlWhere .= "$sAnd $sNomeCampo = '$sCampoChave' ";	
+				$sAnd = "and";
+			}
+		}
+		
+		$sSql = "select * from $sTabela where $sSqlWhere ";		
+		$this->execute($sSql);
+		
+		if($this->getConsulta())
+			return ($this->recordCount() > 0);	
+			
+		return false;	
+	}
+
+	function altera($sTabela, $vsDados) {
+		$vsDadosFinal = [];
+		$vsCampoChave = [];
+	
+		$this->execute("DESCRIBE $sTabela");
+	
+		while ($vsReg = $this->fetchArray()) {
+			if ($vsReg["Key"] != "PRI" && isset($vsDados[$vsReg["Field"]])) {
+				$vsDadosFinal[$vsReg["Field"]] = 
+				$this->escapeString($vsDados[$vsReg["Field"]]);
+			} elseif (isset($vsDados[$vsReg["Field"]])) {
+				$vsCampoChave[$vsReg["Field"]] = $this->escapeString($vsDados[$vsReg["Field"]]);
+			}
+		}
+	
+		$sSqlSet = '';
+		foreach ($vsDadosFinal as $sNomeCampo => $sDados) {
+			$sSqlSet .= ", $sNomeCampo = '$sDados'";
+		}
+		$sSqlSet = ltrim($sSqlSet, ',');
+	
+		$sSqlWhere = '';
+		foreach ($vsCampoChave as $sNomeCampo => $sCampoChave) {
+			$sSqlWhere .= " AND $sNomeCampo = '$sCampoChave'";
+		}
+		$sSqlWhere = ltrim($sSqlWhere, ' AND');
+	
+		$sSql = "UPDATE $sTabela SET $sSqlSet WHERE $sSqlWhere";
+		// print_r($sSql);die;
+		$this->execute($sSql);
+	
+		return $this->getConsulta();
+	}
+
+    function exclui($sTabela,$vsDados) {
+		if(count($vsDados)) {
+            $sAnd = ',';
+            $sSqlWhere = '';
+			foreach($vsDados as $sNomeCampo => $sCampoChave) {
+				$sSqlWhere .= "$sAnd $sNomeCampo = '$sCampoChave' ";	
+				$sAnd = "and";
+			}
+		}
+
+		$sSql = "delete from $sTabela where $sSqlWhere ";     
+		$this->execute($sSql);
+		
+		return $this->getConsulta();
+	}
 }

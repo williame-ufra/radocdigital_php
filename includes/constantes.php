@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+// header('Content-Type: text/html; charset=utf-8');
 
 define("BANCO_ONLINE_URL","localhost");
 //define("BANCO_ONLINE_URL","192.185.213.226");
