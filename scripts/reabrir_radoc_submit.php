@@ -25,13 +25,16 @@ if ($radoc['ativo'] == '1'){
 
 $result = $classeRadoc->altera($dados);
 
+$erro = false;
+$msg = 'Sucesso na alteração!';
+
 if(!$result){
-    $_SESSION['erro'] = true;
-    $_SESSION['msg'] = 'Erro ao reabrir radoc';
-   
+    $erro = true;
+    $msg = 'Erro na operação!';
 }
-$_SESSION['erro'] = false;
-$_SESSION['msg'] = 'Radoc reaberto com sucesso';
+
+$_SESSION['erro'] = $erro;
+$_SESSION['msg'] = $msg;
 
 // header('Location: ?rota=reabrir_radoc');
 $intervalo = 0;
