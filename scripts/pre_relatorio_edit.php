@@ -47,10 +47,10 @@ $cursos = $classes->recuperaTodos();
                 <h4>Avaliação do discente</h4>
 
                 <label>Código do docente:</label>
-                <input class="form-control" type="text" placeholder="Digite seu código" name="codigo" value="<?= $avaliacao['codigo']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite seu código" name="codigo" value="<?= $avaliacao['codigo'] ?? ''  ?>" required>
 
                 <label>Nome: </label>
-                <input class="form-control" type="text" placeholder="Digite seu nome" name="nome" value="<?= $avaliacao['nome']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite seu nome" name="nome" value="<?= $avaliacao['nome'] ?? ''  ?>" required>
 
                 <label>Semestre: </label>
                 <select class='form-control' name='semestre' required>
@@ -60,40 +60,40 @@ $cursos = $classes->recuperaTodos();
                 </select>
 
                 <label>Período letivo: </label>
-                <input class="form-control" type="text" placeholder="Digite o período letivo" name="periodo_letivo" value="<?= $avaliacao['periodo_letivo']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite o período letivo" name="periodo_letivo" value="<?= $avaliacao['periodo_letivo'] ?? '' ?>" required>
                 <br />
 
                 <h4>Aula</h4>
 
                 <label>Código da aula: </label>
-                <input class="form-control" type="text" placeholder="Digite o código da aula" name="codaula" value="<?= $aula['codigo']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite o código da aula" name="codaula" value="<?= $aula['codigo']  ?? '' ?>" required>
 
                 <label>Nome da disciplina:</label>
-                <input class="form-control" type="text" placeholder="Digite o nome da disciplina" name="ndisciplina" value="<?= $aula['nome']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite o nome da disciplina" name="ndisciplina" value="<?= $aula['nome']  ?? '' ?>" required>
 
                 <label>Turma teórica:</label>
-                <input class="form-control" type="text" placeholder="Digite a turma teórica" name="turmteorica" value="<?= $aula['turmas_teorica']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite a turma teórica" name="turmteorica" value="<?= $aula['turmas_teorica'] ?? ''  ?>" required>
 
                 <label>Turma prática: </label>
-                <input class="form-control" type="text" placeholder="Digite a turma prática" name="turmpratica" value="<?= $aula['turmas_pratica']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite a turma prática" name="turmpratica" value="<?= $aula['turmas_pratica']  ?? '' ?>" required>
 
                 <label>Carga horária teórica: </label>
-                <input class="form-control" type="text" placeholder="Digite a carga horária teórica" name="chteorica" value="<?= $aula['carga_horaria_teorica']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite a carga horária teórica" name="chteorica" value="<?= $aula['carga_horaria_teorica'] ?? ''  ?>" required>
 
                 <label>Carga horária prática:</label>
-                <input class="form-control" type="text" placeholder="Digite a carga horária prática" name="chpratica" value="<?= $aula['carga_horaria_pratica']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite a carga horária prática" name="chpratica" value="<?= $aula['carga_horaria_pratica'] ?? ''  ?>" required>
 
                 <label>Carga horária total: </label>
-                <input class="form-control" type="text" placeholder="Digite a carga horária total" name="chtotal" value="<?= $aula['carga_horaria_total']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite a carga horária total" name="chtotal" value="<?= $aula['carga_horaria_total'] ?? ''  ?>" required>
 
                 <label>Qtd. Docentes: </label>
-                <input class="form-control" type="text" placeholder="Digite o nome do docente" name="ndocente" value="<?= $aula['docentes']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite o nome do docente" name="ndocente" value="<?= $aula['docentes'] ?? ''  ?>" required>
 
                 <label>Docentes ch: </label>
-                <input class="form-control" type="text" placeholder="Digite o ch do docente" name="chdocente" value="<?= $aula['docentes_ch']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite o ch do docente" name="chdocente" value="<?= $aula['docentes_ch'] ?? ''  ?>" required>
 
                 <label>Periodo Letivo: </label>
-                <input class="form-control" type="text" placeholder="Digite o ch do docente" name="periodo_letivo" value="<?= $aula['periodo_letivo']  ?>" required>
+                <input class="form-control" type="text" placeholder="Digite o ch do docente" name="periodo_letivo" value="<?= $aula['periodo_letivo'] ?? ''  ?>" required>
 
                 <label>Semestre:</label>
                 <select class="form-control" name="semestre" required>
@@ -109,7 +109,7 @@ $cursos = $classes->recuperaTodos();
 
                     foreach ($cursos as $curso) {
                         $selected = ($aula['curso_id'] == $curso['id']) ? 'selected' : '';
-                        echo '<option value="' . $curso['id'] . '" ' . $selected . '>' . $curso['nome'] . '</option>';
+                        echo '<option value="' . $curso['id'] . '" ' . $selected . '>' . $curso['nome'] ?? '' . '</option>';
                     }
                     ?>
 
@@ -135,7 +135,7 @@ $cursos = $classes->recuperaTodos();
                 </select>
 
                 <label>Total:</label>
-                <input class="form-control" type="number" placeholder="Digite o total" name="total" value="<?= $calculoSemanal['total']  ?>" required>
+                <input class="form-control" type="number" placeholder="Digite o total" name="total" value="<?= $calculoSemanal['total'] ?? ''  ?>" required>
 
                 <br />
                 <h4>Pedagógica complementar</h4>
@@ -157,7 +157,7 @@ $cursos = $classes->recuperaTodos();
                 </select>
 
                 <label>Total:</label>
-                <input class="form-control" type="number" placeholder="Digite o total" name="total_pedagogica" value="<?= $pedagogicaComplementar['total']  ?>" required>
+                <input class="form-control" type="number" placeholder="Digite o total" name="total_pedagogica" value="<?= $pedagogicaComplementar['total'] ?? ''  ?>" required>
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Editar</button>
