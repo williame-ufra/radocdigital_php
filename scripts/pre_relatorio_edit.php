@@ -41,7 +41,7 @@ $cursos = $classes->recuperaTodos();
         <form method="post" action="?rota=pre_relatorio_edit_submit">
             <a href="?rota=pdocente" class="btn btn-success">Voltar</a>
             <div class="col text-center">
-                <h2>Preencher relatório</h2><br>
+                <h2>Editar relatório</h2><br>
             </div>
             <div class="mb-3">
                 <h4>Avaliação do discente</h4>
