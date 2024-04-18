@@ -12,8 +12,6 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
     $senha = isset( $_POST[ 'text_senha' ] ) ? trim( htmlspecialchars( $_POST[ 'text_senha' ] ) ) : null;
 
     if ( !$usuario || !$senha ) {
-        // header( 'Location: /?rota=login' );
-        // header( 'Refresh: 0; URL=/?rota=login' );
         echo "<script>setTimeout(function() {
             window.location.href = '/?rota=login';
         }, " . ($intervalo * 1000) . ");</script>";
@@ -33,10 +31,7 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
     $resultado = $classeDocente->recupera( [ 'cpf' => $usuario, 'senha' => $senha ] );
 
     if ( !$resultado ) {
-        // session_start();
         $_SESSION[ 'erro' ] = 'Usuário ou senha inválidos';
-        // header( 'Location: index.php?rota=login' );
-        // header( 'Refresh: 0; URL=index.php?rota=login' );
 
     echo "<script>setTimeout(function() {
         window.location.href = '/?rota=login';
@@ -47,8 +42,6 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
     if ( empty( $resultado ) ) {
         // session_start();
         $_SESSION[ 'erro' ] = 'Usuário ou senha inválidos';
-        // header( 'Location: index.php?rota=login' );
-        // header( 'Refresh: 0; URL=index.php?rota=login' );
         
     echo "<script>setTimeout(function() {
         window.location.href = '/?rota=login';
@@ -56,19 +49,13 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
         exit;
     }
 
-    // session_start();
     $_SESSION[ 'usuario' ] = $resultado;
-
-    // header( 'Location: index.php?rota=home' );
-    // header('Refresh: 0; URL=index.php?rota=home');
     
     echo "<script>setTimeout(function() {
         window.location.href = '/?rota=home';
     }, " . ($intervalo * 1000) . ");</script>";
     exit;
 } else {
-    // header( 'Location: /?rota=login' );
-    // header( 'Refresh: 0; URL=/?rota=login' );
     
     echo "<script>setTimeout(function() {
         window.location.href = '/?rota=login';

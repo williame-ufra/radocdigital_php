@@ -66,9 +66,9 @@ $erro = $_SESSION[ 'erro' ] ?? false;
     <a href = '?rota=relatorio' target = '_blank'><button class = 'btn btn-success mt-5'>Gerar Relatório</button></a><br>
     </div> -->
 
-    <!-- <div class = 'col text-center'>
-    <a href = '?rota=teste-email' target = '_blank'><button class = 'btn btn-success mt-5'>Teste Email</button></a><br>
-    </div> -->
+    <div class = 'col text-center'>
+    <a href = '?rota=teste-email' ><button class = 'btn btn-success mt-5'>Teste Email</button></a><br>
+    </div>
 
     </div>
 

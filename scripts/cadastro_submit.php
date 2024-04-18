@@ -44,15 +44,15 @@ $dados = array(
     // 'senha' => hash('sha256', $senha),
     'senha' => $senha,
     'data_nascimento' => $formattedDate,
-    'ultimo_acesso' => $agoraFormatado
+    'ultimo_acesso' => $agoraFormatado,
+    'cppd' => '0',
 );
 
 $usuario = $classeDocente->recupera(['cpf' => $cpf]);
 
 if ($usuario) {
     $msg = 'CPF já cadastrado!';
-    // header('Location: /?rota=cadastro');
-    // header('Refresh: 0; URL=/?rota=cadastro');
+
     echo "<script>setTimeout(function() {
         window.location.href = '/?rota=cadastro';
     }, " . ($intervalo * 1000) . ");</script>";
@@ -63,8 +63,7 @@ $usuario = $classeDocente->recupera(['email' => $email]);
 
 if ($usuario) {
     $msg = 'Email já cadastrado!';
-    // header('Location: /?rota=cadastro');
-    // header('Refresh: 0; URL=/?rota=cadastro');
+
     echo "<script>setTimeout(function() {
         window.location.href = '/?rota=cadastro';
     }, " . ($intervalo * 1000) . ");</script>";
@@ -77,10 +76,9 @@ $msg = 'Erro ao cadastrar docente!';
 if ($docente) {
     $msg = 'Cadastro realizado com sucesso!';
     $docente = $classeDocente->recupera(['id' => $docente]);
-    if($helper->sendEmailConfirmacaoCadastro($docente)){
+    if($helper->sendEmailConfirmacaoCadastro($email, $nome)){
         $msg = 'Cadastro realizado com sucesso!!';
     }
-   
 }
 
 ?>
