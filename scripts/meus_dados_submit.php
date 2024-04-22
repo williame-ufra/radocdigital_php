@@ -3,46 +3,38 @@
 require_once __DIR__ . '/../classes/class.Docente.php';
 
 $classeDocente = new Docente();
-
-$usuario = $_SESSION['usuario'];
-
+$usuario = $_SESSION[ 'usuario' ];
 $input = $_POST;
-// print_r($input);die;
 
+$dateTime = new DateTime( $input[ 'data_nascimento' ] );
+$formattedDate = $dateTime->format( 'Y-m-d H:i:s' );
 
-$dateTime = new DateTime($input['data_nascimento']);
-$formattedDate = $dateTime->format('Y-m-d H:i:s');
+$input[ 'data_nascimento' ] = $formattedDate;
+$input[ 'id' ] = $usuario[ 'id' ];
 
-$input['data_nascimento'] = $formattedDate;
+$input = array_filter( $input );
+unset( $input[ 'cpf' ] );
 
-$input['id'] = $usuario['id'];
-
-// if (isset($input['senha']) && $input['senha'] != '') {
-    // $input['senha'] = hash('sha256', $input['senha']);
-    // $input['senha'] = $input['senha'];
-// }
-
-$input = array_filter($input);
-
-
-// print_r($usuario);print_r($input);die;
-$result = $classeDocente->altera($input);
+$result = $classeDocente->altera( $input );
 
 $msg = 'Erro ao alterar dados!';
 $erro = true;
 
-if (isset($result)){
+if ( isset( $result ) ) {
     $msg = 'Alteração realizada com sucesso!';
     $erro = false;
-    // header('Location: /?rota=meus_dados');
+
+    $_SESSION['msg'] = $msg;
+    $_SESSION['erro'] = $erro;
+
     $intervalo = 0;
     echo "<script>setTimeout(function() {
     window.location.href = '/?rota=meus_dados';
     }, " . ( $intervalo * 1000 ) . ');</script>';
 }
 
-$_SESSION['msg'] = $msg; 
-$_SESSION['erro'] = $erro;
-exit;
+$_SESSION[ 'msg' ] = $msg;
 
+$_SESSION[ 'erro' ] = $erro;
+exit;
 

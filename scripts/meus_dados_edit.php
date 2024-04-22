@@ -18,7 +18,6 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <style>
@@ -47,7 +46,7 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
             <div class="mb-3">
                 <label>Nome:</label> 
                 <input class="form-control" type="text" placeholder="Digite seu nome" 
-                value="<?=$docente['nome_completo'] ?>" name="name">
+                value="<?=$docente['nome_completo'] ?>" name="nome_completo">
 
                 <label>CPF:</label>  <input class="form-control" type="text" placeholder="Digite seu CPF" 
                 value="<?=$docente['cpf'] ?>" name="cpf">
@@ -72,18 +71,18 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
                 </select>
 
                 <label>Vínculo estatutário:</label> 
-                <select class="form-select" name="vinculo">
+                <select class="form-select" name="vinculo_estatutário">
                     <option value="">Selecione</option>
-                    <option value="S" <?= $docente['vinculo'] == 'S' ? 'selected':'' ?>>Sim</option>
-                    <option value="N" <?= $docente['vinculo'] == 'N' ? 'selected':'' ?>>Não</option>
+                    <option value="S" <?= $docente['vinculo_estatutário'] == 'S' ? 'selected':'' ?>>Sim</option>
+                    <option value="N" <?= $docente['vinculo_estatutário'] == 'N' ? 'selected':'' ?>>Não</option>
                 </select>
 
                 <label>Regime de trabalho:</label> 
-                <select class="form-select" name="regime_de_trabalho">
+                <select class="form-select" name="regime">
                     <option value="">Selecione</option>
-                    <!-- <option value="DE"<?= $docente['regime_de_trabalho'] == '1' ? 'selected':'' ?>>DE</option> -->
-                    <option value="20"<?= $docente['regime_de_trabalho'] == '20' ? 'selected':'' ?>>20h</option>
-                    <option value="40"<?= $docente['regime_de_trabalho'] == '40' ? 'selected':'' ?>>40h</option>
+                    <!-- <option value="DE"<?= $docente['regime'] == '1' ? 'selected':'' ?>>DE</option> -->
+                    <option value="20"<?= $docente['regime'] == '20' ? 'selected':'' ?>>20h</option>
+                    <option value="40"<?= $docente['regime'] == '40' ? 'selected':'' ?>>40h</option>
                 </select>
 
 
@@ -98,12 +97,12 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
 
                 <label>Campus:</label> 
 
-                <select class="form-select" name="campus">
+                <select class="form-select" name="campus_id">
                     <option value="">Selecione</option>
                     <?php
                     foreach ($campi as $key => $campus) {
                     ?>
-                        <option value="<?= $campus['id'] ?>" <?= $docente['campus'] == $campus['id'] ? 'selected':'' ?>><?= $campus['cidade'] ?></option>
+                        <option value="<?= $campus['id'] ?>" <?= $docente['campus_id'] == $campus['id'] ? 'selected':'' ?>><?= $campus['cidade'] ?></option>
                     <?php
                     }
                     ?>
@@ -111,20 +110,20 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
 
                 <label>Instituto:</label> 
 
-                <select class="form-select" name="instituto">
+                <select class="form-select" name="instituto_id">
                     <option value="">Selecione</option>
                     <?php
                     foreach ($institutos as $key => $instituto) {
                     ?>
-                        <option value="<?= $instituto['id'] ?>" <?= $docente['instituto'] == $instituto['id'] ? 'selected':'' ?>><?= $instituto['sigla'] ?></option>
+                        <option value="<?= $instituto['id'] ?>" <?= $docente['instituto_id'] == $instituto['id'] ? 'selected':'' ?>><?= $instituto['sigla'] ?></option>
                     <?php
                     }
                     ?>
                 </select>
-
-                <label>Data:</label>  
+                    
+                <label>Data:</label> 
                 <input class="form-control" type="date" placeholder="Digite a data" 
-                value="<?=$docente['data_nascimento'] ?>" name="data_nascimento">
+                value="<?= substr($docente['data_nascimento'], 0, 10)  ?>" name="data_nascimento">
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Alterar</button>

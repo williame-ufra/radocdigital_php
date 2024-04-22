@@ -14,6 +14,9 @@ $institutos = $classeInstituto->recuperaTodos();
 $usuario = $_SESSION['usuario'];
 $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
 
+$sessionMsg = $_SESSION[ 'msg' ] ?? '';
+$erro = $_SESSION[ 'erro' ] ?? false;
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -29,10 +32,26 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar</title>
     <!--<link rel="stylesheet" href="estilo.css">-->
+    <script src = 'https://code.jquery.com/jquery-1.9.1.min.js'></script>
+    <link href = 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css' rel = 'stylesheet'>
+    <script src = 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js'></script>
 </head>
 
 <body>
+        <?php if ( $erro && isset( $sessionMsg ) && $sessionMsg != '' ) {
+            ?>
+            <script type = 'text/javascript'>
+            toastr.error( '<?= $sessionMsg ?>' )
+            </script>
+            <?php } elseif ( isset( $sessionMsg ) && $sessionMsg != '' ) {
+        ?>
+        <script type = 'text/javascript'>
+        toastr.success( '<?= $sessionMsg ?>' )
+        </script>
+        <?php }
 
+        $_SESSION[ 'msg' ] = '';
+        ?>
     <div class="container p-5">
         <!-- <form method="post" action="?rota=cadastro_submit"> -->
         <a href="?rota=pcppd" class="btn btn-success">Voltar</a>
@@ -98,7 +117,7 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
                     <?php
                     foreach ($campi as $key => $campus) {
                     ?>
-                        <option value="<?= $campus['id'] ?>" <?= $docente['campus'] == $campus['id'] ? 'selected':'' ?>><?= $campus['cidade'] ?></option>
+                        <option value="<?= $campus['id'] ?>" <?= $docente['campus_id'] == $campus['id'] ? 'selected':'' ?>><?= $campus['cidade'] ?></option>
                     <?php
                     }
                     ?>
@@ -111,15 +130,15 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
                     <?php
                     foreach ($institutos as $key => $instituto) {
                     ?>
-                        <option value="<?= $instituto['id'] ?>" <?= $docente['instituto'] == $instituto['id'] ? 'selected':'' ?>><?= $instituto['sigla'] ?></option>
+                        <option value="<?= $instituto['id'] ?>" <?= $docente['instituto_id'] == $instituto['id'] ? 'selected':'' ?>><?= $instituto['sigla'] ?></option>
                     <?php
                     }
                     ?>
                 </select>
 
-                <label>Data:</label>  
+                <label>Data: </label>  <?php isset($docente['data_nascimento']) ? $docente['data_nascimento'] : '' ?>
                 <input class="form-control" type="date" placeholder="Digite a data" 
-                value="<?=$docente['data_nascimento'] ?>" name="data_nascimento" disabled>
+                value="<?= substr($docente['data_nascimento'], 0, 10) ?>" name="data_nascimento" disabled>
             </div>
             <div>
                 <!-- <button type="submit" class="btn btn-success">Alterar</button> -->
