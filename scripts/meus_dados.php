@@ -17,6 +17,7 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
 $sessionMsg = $_SESSION[ 'msg' ] ?? '';
 $erro = $_SESSION[ 'erro' ] ?? false;
 
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -63,8 +64,8 @@ $erro = $_SESSION[ 'erro' ] ?? false;
                 <label>Nome:</label> 
                 <input class="form-control" type="text" placeholder="Digite seu nome" value="<?=$docente['nome_completo'] ?>" name="name" disabled>
 
-                <label>CPF:</label>  <input class="form-control" type="text" placeholder="Digite seu CPF" 
-                value="<?=$docente['cpf'] ?>" name="cpf" disabled>
+                <label>CPF:</label>  <input class="form-control cpf" type="text" placeholder="Digite seu CPF" 
+                value="<?=$docente['cpf'] ?>" name="cpf" disabled  minlength="11" maxlength="11">
 
                 <label>Siape:</label>  <input class="form-control" type="text" placeholder="Digite seu siape" 
                 value="<?=$docente['siape'] ?>" name="siape" disabled>
@@ -86,18 +87,18 @@ $erro = $_SESSION[ 'erro' ] ?? false;
                 </select>
 
                 <label>Vínculo estatutário:</label> 
-                <select class="form-select" name="vinculo" disabled>
+                <select class="form-select" name="vinculo_estatutario" disabled>
                     <option value="">Selecione</option>
-                    <option value="S" <?= $docente['vinculo'] == 'S' ? 'selected':'' ?>>Sim</option>
-                    <option value="N" <?= $docente['vinculo'] == 'N' ? 'selected':'' ?>>Não</option>
+                    <option value="S" <?= $docente['vinculo_estatutario'] == 'S' ? 'selected':'' ?>>Sim</option>
+                    <option value="N" <?= $docente['vinculo_estatutario'] == 'N' ? 'selected':'' ?>>Não</option>
                 </select>
 
                 <label>Regime de trabalho:</label> 
-                <select class="form-select" name="regime_de_trabalho" disabled>
+                <select class="form-select" name="regime" disabled>
                     <option value="">Selecione</option>
-                    <!-- <option value="DE"<?= $docente['regime_de_trabalho'] == '1' ? 'selected':'' ?>>DE</option> -->
-                    <option value="20"<?= $docente['regime_de_trabalho'] == '20' ? 'selected':'' ?>>20h</option>
-                    <option value="40"<?= $docente['regime_de_trabalho'] == '40' ? 'selected':'' ?>>40h</option>
+                    <!-- <option value="DE"<?= $docente['regime'] == '1' ? 'selected':'' ?>>DE</option> -->
+                    <option value="20"<?= $docente['regime'] == '20' ? 'selected':'' ?>>20h</option>
+                    <option value="40"<?= $docente['regime'] == '40' ? 'selected':'' ?>>40h</option>
                 </select>
 
 
@@ -151,3 +152,4 @@ $erro = $_SESSION[ 'erro' ] ?? false;
 </body>
 
 </html>
+

@@ -48,8 +48,8 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
                 <input class="form-control" type="text" placeholder="Digite seu nome" 
                 value="<?=$docente['nome_completo'] ?>" name="nome_completo">
 
-                <label>CPF:</label>  <input class="form-control" type="text" placeholder="Digite seu CPF" 
-                value="<?=$docente['cpf'] ?>" name="cpf">
+                <label>CPF:</label>  <input class="form-control cpf" type="text" placeholder="Digite seu CPF" 
+                value="<?=$docente['cpf'] ?>" name="cpf" minlength="11" maxlength="11">
 
                 <label>Siape:</label>  <input class="form-control" type="text" placeholder="Digite seu siape" 
                 value="<?=$docente['siape'] ?>" name="siape">
@@ -71,10 +71,10 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
                 </select>
 
                 <label>Vínculo estatutário:</label> 
-                <select class="form-select" name="vinculo_estatutário">
+                <select class="form-select" name="vinculo_estatutario">
                     <option value="">Selecione</option>
-                    <option value="S" <?= $docente['vinculo_estatutário'] == 'S' ? 'selected':'' ?>>Sim</option>
-                    <option value="N" <?= $docente['vinculo_estatutário'] == 'N' ? 'selected':'' ?>>Não</option>
+                    <option value="S" <?= $docente['vinculo_estatutario'] == 'S' ? 'selected':'' ?>>Sim</option>
+                    <option value="N" <?= $docente['vinculo_estatutario'] == 'N' ? 'selected':'' ?>>Não</option>
                 </select>
 
                 <label>Regime de trabalho:</label> 
@@ -131,7 +131,5 @@ $docente = $classeDocente->recupera(['cpf' => $usuario['cpf']]);
         </form>
     </div>
     <br>
-
 </body>
-
 </html>
