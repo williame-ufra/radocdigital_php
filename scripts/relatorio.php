@@ -109,7 +109,7 @@ $anoAtual = date("Y");
 </style>
 </head>
 <body>
-<a href="?rota=pcppd" class="btn btn-success back">Voltar</a>
+<a href="?rota=pdocente" class="btn btn-success back">Voltar</a>
 <button class="botao-fixo" onclick="imprimirPagina()">
 🖨
 <label>Imprimir</label> </button>

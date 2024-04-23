@@ -106,7 +106,7 @@ if ( $docente ) {
 
 <body>
 <p>
-<h4 class = 'text-center'>< ?= $msg ?></h4>
+<h4 class = 'text-center'><?= $msg ?></h4>
 </p>
 <div class = 'text-center'>
 <a href = '?rota=login'><button class = 'btn btn-success btn-lg mt-5'>Fazer login</button></a>
